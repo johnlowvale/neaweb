@@ -1,0 +1,19 @@
+
+#Banner-Image {
+  height:1in;
+}
+
+#Menu-Box {
+  background:burlywood; line-height:0.4in; font-size:30px; display:table-cell;
+  width:9.7in; height:0.4in; vertical-align:middle;
+}
+
+#Menu-Box a {
+  color:maroon; text-decoration:none;
+}
+
+#Menu-Box a:hover {
+  color:green;
+}
+
+/*end of file*/
