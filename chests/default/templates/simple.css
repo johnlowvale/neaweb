@@ -4,6 +4,10 @@ body {
   text-align:center; margin:0; padding:0;
 }
 
+li {
+  margin-left:0.2in;
+}
+
 #Scroll-Outer {
   text-align:left; margin-left:auto; margin-right:auto; width:11.7in;
   background:wheat; border:1px solid wheat; 
