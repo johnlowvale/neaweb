@@ -82,6 +82,9 @@ class server {
         function(Error,Stats){
           if (Error!=null || !Stats.isFile())
             Main_Section_Url = "/templates/blank.html";
+                                      
+          //locale name
+          var Locale_Name = server.Default_Locale;  
             
           //parse template
           Data = eval("`"+Data+"`");
@@ -164,6 +167,8 @@ class server {
     //static directories
     Server.use("/libs",  
     express.static("chests/"+Default_Chest+"/libs")); 
+    Server.use("/locales",  
+    express.static("chests/"+Default_Chest+"/locales"));
     Server.use("/templates",
     express.static("chests/"+Default_Chest+"/templates"));     
     Server.use("/mains",

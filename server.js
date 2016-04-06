@@ -35,7 +35,7 @@ var DATABASE_NAME    = "neaweb";
 var DEFAULT_CHEST    = "default";
 var DEFAULT_SCROLL   = "home";
 var DEFAULT_TEMPLATE = "simple";
-var DEFAULT_LOCALE   = "Uk";
+var DEFAULT_LOCALE   = "locale-uk";
 
 //create server
 var Server = new server(
