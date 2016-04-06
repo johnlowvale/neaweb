@@ -28,19 +28,19 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   = 0.3;
-var SERVER_PORT      = 80;
+var SERVER_VERSION   =  0.3;
+var SERVER_PORT      =  80;
 var DATABASE_HOST    = "localhost";
 var DATABASE_NAME    = "neaweb";
 var DEFAULT_CHEST    = "default";
 var DEFAULT_SCROLL   = "home";
 var DEFAULT_TEMPLATE = "simple";
+var DEFAULT_LOCALE   = "Uk";
 
 //create server
 var Server = new server(
-  SERVER_NAME,SERVER_VERSION,SERVER_PORT,  
-  DATABASE_HOST,DATABASE_NAME,
-  DEFAULT_CHEST,DEFAULT_SCROLL,DEFAULT_TEMPLATE
+  SERVER_NAME,SERVER_VERSION,SERVER_PORT,DATABASE_HOST,DATABASE_NAME,
+  DEFAULT_CHEST,DEFAULT_SCROLL,DEFAULT_TEMPLATE,DEFAULT_LOCALE
 );
 Server.start();
 

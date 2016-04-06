@@ -24,7 +24,8 @@ class server {
    * Constructor
    */           
   constructor(Server_Name,Server_Version,Server_Port,Database_Host,
-  Database_Name,Default_Chest,Default_Scroll,Default_Template) {
+  Database_Name,Default_Chest,Default_Scroll,Default_Template,
+  Default_Locale) {
     server.Server_Name      = Server_Name;
     server.Server_Version   = Server_Version;
     server.Server_Port      = Server_Port;
@@ -32,7 +33,8 @@ class server {
     server.Database_Name    = Database_Name; 
     server.Default_Chest    = Default_Chest;
     server.Default_Scroll   = Default_Scroll;      
-    server.Default_Template = Default_Template;       
+    server.Default_Template = Default_Template;
+    server.Default_Locale   = Default_Locale;       
     server.Handlers         = [];
                                
     //db connection
