@@ -14,7 +14,12 @@
  * Beside Couchbase, ExpressJS and other popular NodeJS modules
  * are also used.
  * Client side of this project comes with Quickt (AngularJS-like)
- * which is a very light-weight library for browser JavaScript.
+ * which is a very light-weight library for browser JavaScript.  
+ *
+ * Version info:
+ * 0.1 Initial version
+ * 0.2 Fixed bug calling handle_post on undefined
+ * 0.3 server.handle_get only handles routes, not files.
  */
 "use strict";
 
@@ -23,7 +28,7 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   = 0.1;
+var SERVER_VERSION   = 0.3;
 var SERVER_PORT      = 80;
 var DEFAULT_CHEST    = "default";
 var DEFAULT_SCROLL   = "home";

@@ -35,10 +35,20 @@ class server {
   }  
   
   /**
-   * Handle all GET requests
+   * Handle all GET requests  
+   * Static files requested but not found may lead to this method too,
+   * this method won't handle files, only routes.
    */                       
   handle_get(Request,Response) {
-    var Path     = Request.path;        
+    var Path = Request.path;
+         
+    //check if a dot exists in path
+    if (Path.indexOf(".")>=0) {
+      Response.send("");
+      return;
+    }
+    
+    //read template        
     var Template = fs.readFile(
       "chests/"+server.Default_Chest+"/templates/"+
       server.Default_Template+".html",
@@ -84,8 +94,13 @@ class server {
       Path = Path.substr(0,Path.length-1);
       
     //get handler
-    var Handler_Class    = server.Handlers[Path];
-    var Handler_Instance = new Handler_Class();
+    var Handler_Class = server.Handlers[Path];
+    if (Handler_Class!=null)
+      var Handler_Instance = new Handler_Class();
+    else {
+      Response.json({error:"NO-HANDLER-FOUND"});
+      return;
+    }
     
     //call handler                            
     Handler_Instance.handle_post(Request,Response);
