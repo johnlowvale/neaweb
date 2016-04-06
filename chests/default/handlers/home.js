@@ -37,12 +37,12 @@ class home_handler {
     
     //test sql library query
     cb.select("*").type("user").query(function(Error,Results){     
-      console.log("POST /home");
-      console.log("All users:");
+      //console.log("POST /home");
+      //console.log("All users:");
       if (Error)
         console.log(Error);
       else {
-        console.log(Results);
+        //console.log(Results);
         Response.json(Results);
       }
     });

@@ -67,6 +67,14 @@ class cb {
     cb.Sql += "and "+Condition+" ";
     return cb;
   }
+   
+  /**
+   * Couchbase N1QL 'where .. and'
+   */
+  static and(Condition) {
+    cb.Sql += "and "+Condition+" ";
+    return cb;
+  }
   
   /**
    * Couchbase N1QL query
