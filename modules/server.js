@@ -12,6 +12,9 @@ var body_parser = require("body-parser");
 var express     = require("express");
 var fs          = require("fs");
 
+//project modules
+var cb = require("./cb");
+
 /**
  * Main server class
  */
@@ -20,15 +23,20 @@ class server {
   /**
    * Constructor
    */           
-  constructor(Server_Name,Server_Version,Server_Port,
-  Default_Chest,Default_Scroll,Default_Template) {
+  constructor(Server_Name,Server_Version,Server_Port,Database_Host,
+  Database_Name,Default_Chest,Default_Scroll,Default_Template) {
     server.Server_Name      = Server_Name;
     server.Server_Version   = Server_Version;
     server.Server_Port      = Server_Port;
+    server.Database_Host    = Database_Host;
+    server.Database_Name    = Database_Name; 
     server.Default_Chest    = Default_Chest;
     server.Default_Scroll   = Default_Scroll;      
     server.Default_Template = Default_Template;       
     server.Handlers         = [];
+                               
+    //db connection
+    cb.connect(Database_Host,Database_Name);
     
     //singleton
     server.Self = this;

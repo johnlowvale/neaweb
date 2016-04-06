@@ -1,6 +1,8 @@
 
 "use strict";
 
+var cb = require(process.cwd()+"/modules/cb");
+
 class admin_home_product_count_handler {
 
   constructor() {
@@ -10,7 +12,14 @@ class admin_home_product_count_handler {
   }
   
   handle_post(Request,Response) {
-    Response.json({Product_Count:999});
+    cb.select("*").type("product").query(function(Error,Results){
+      if (Error) {
+        Response.json({Product_Count:0});
+        return;
+      }       
+      
+      Response.json({Product_Count:Results.length});
+    });//query
   }
 }
 

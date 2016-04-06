@@ -21,7 +21,8 @@ class cb {
   static connect(Domain_Name,Bucket_Name) {
     var Cluster = new couchbase.Cluster(Domain_Name);
     var Bucket  = Cluster.openBucket(Bucket_Name);
-    
+                    
+    cb.Domain_Name = Domain_Name;
     cb.Bucket_Name = Bucket_Name;
     cb.Bucket      = Bucket;
     return Bucket;  
@@ -90,6 +91,7 @@ cb.view = couchbase.ViewQuery;
 cb.n1ql = couchbase.N1qlQuery;
 
 //other static properties
+cb.Domain_Name = null;
 cb.Bucket_Name = null;
 cb.Bucket      = null;
 cb.Sql         = null;
