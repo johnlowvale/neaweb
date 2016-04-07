@@ -35,14 +35,24 @@ class server {
     server.Default_Scroll   = Default_Scroll;      
     server.Default_Template = Default_Template;
     server.Default_Locale   = Default_Locale;       
-    server.Handlers         = [];
+    server.Handlers         = {};
                                
     //db connection
     cb.connect(Database_Host,Database_Name);
     
     //singleton
     server.Self = this;
-  }  
+  }   
+                   
+  /**
+   * Count object properties
+   */                       
+  count(Variable) {
+    var Count = 0;
+    for (var Key in Variable)
+      Count++;
+    return Count;
+  }   
   
   /**
    * Handle all GET requests  
@@ -136,7 +146,12 @@ class server {
         var Cwd    = process.cwd();
         var Prefix = Cwd+"/chests/"+server.Default_Chest+"/handlers";
         var Key    = File_Path.replace(Prefix,"").replace(".js","");
-        server.Handlers[Key] = require(File_Path);
+        server.Handlers[Key] = require(File_Path);   
+                    
+        //logs    
+        console.log("");
+        console.log(File_Path.replace(/\\/g,"/"));
+        console.log(`as server.Handlers["${Key}"]`);
       }
       else
       if (Stats.isDirectory())
@@ -158,8 +173,11 @@ class server {
     
     //load handler classes     
     var Cwd  = process.cwd();                                   
-    var Path = Cwd+"/chests/"+Default_Chest+"/handlers"; 
-    this.load_handlers(Path);
+    var Path = Cwd+"/chests/"+Default_Chest+"/handlers";   
+    console.log("Loading handlers...");
+    this.load_handlers(Path);      
+    console.log("");
+    console.log("Loaded "+this.count(server.Handlers)+" handlers\n");
          
     //body parser
     Server.use(body_parser.json());
