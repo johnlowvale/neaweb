@@ -54,7 +54,7 @@ class cb {
       if (Error)
         Callback(Error,Result);
       else
-        Callback(Error,Key+Result.value);
+        Callback(Error,Key+"-"+Result.value);
     });
   }
    
