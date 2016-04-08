@@ -29,7 +29,7 @@ class register_handler {
       Full_Name:       Body.Full_Name
     };       
                                       
-    cb.counter("user",function(Error,Next_Id){
+    cb.next_id("user",function(Error,Next_Id){
       cb.insert().values(Next_Id,User).query({},
       function(Error,Results){
         if (Error)

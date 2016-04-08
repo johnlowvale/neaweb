@@ -47,7 +47,7 @@ class cb {
   /**
    * Couchbase bucket counter
    */                        
-  static counter(Key,Callback) {
+  static next_id(Key,Callback) {
     var Delta   = 1;
     var Options = {initial:0};
     return cb.Bucket.counter(Key,Delta,Options,function(Error,Result){

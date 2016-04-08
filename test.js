@@ -45,7 +45,7 @@ function(Error,Results){
 });
 
 //test sql library query
-cb.select("*").from("neaweb").where_type("user").query({},
+cb.select("*").where_type("user").query({},
 function(Error,Results){
   console.log("query:");
   if (Error)
