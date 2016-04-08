@@ -29,13 +29,13 @@ class register_handler {
       Full_Name:       Body.Full_Name
     };       
                                       
-    cb.counter("user",function(Error,Id){
-      cb.insert_into("neaweb").values(Id.value,User).query({},
+    cb.counter("user",function(Error,Next_Id){
+      cb.insert().values(Next_Id,User).query({},
       function(Error,Results){
         if (Error)
           Response.json(Error);
         else
-          Response.json(Results);
+          Response.json({Id:Next_Id});
       });//insert
     });//counter    
   }

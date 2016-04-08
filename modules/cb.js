@@ -50,14 +50,19 @@ class cb {
   static counter(Key,Callback) {
     var Delta   = 1;
     var Options = {initial:0};
-    return cb.Bucket.counter(Key,Delta,Options,Callback);
+    return cb.Bucket.counter(Key,Delta,Options,function(Error,Result){
+      if (Error)
+        Callback(Error,Result);
+      else
+        Callback(Error,Result.value);
+    });
   }
    
   /**
    * Couchbase N1QL 'insert into'
    */                          
-  static insert_into(Bucket_Name) {
-    cb.Sql = "insert into "+Bucket_Name+" ";
+  static insert() {
+    cb.Sql = "insert into "+cb.Bucket_Name+" ";
     return cb;
   }                                     
   
@@ -73,17 +78,10 @@ class cb {
    * Couchbase N1QL 'select'
    */
   static select(Pattern) {
-    cb.Sql = "select "+Pattern+" ";
+    cb.Sql = "select meta("+cb.Bucket_Name+").id,"+Pattern+" "+
+    "from "+cb.Bucket_Name+" ";
     return cb;
-  } 
-         
-  /**
-   * Couchbase N1QL 'from'
-   */                   
-   static from(Bucket_Name) {
-    cb.Sql += "from "+Bucket_Name+" ";
-    return cb;
-   }
+  }
   
   /**
    * Couchbase N1QL 'where Type=...'
