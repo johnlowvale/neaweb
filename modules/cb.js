@@ -43,34 +43,58 @@ class cb {
     var Query = cb.n1ql.fromString(Sql_String);
     cb.Bucket.query(Query,Callback);
   }
+       
+  /**
+   * Couchbase N1QL 'insert into'
+   */                          
+  static insert_into(Bucket_Name) {
+    cb.Sql = "insert into "+Bucket_Name+" ";
+    return cb;
+  }                                     
   
   /**
-   * Couchbase N1QL select
+   * Couchbase N1QL 'values'
+   */                        
+  static values(Key,Value) {
+    cb.Sql += "values (\""+Key+"\","+JSON.stringify(Value)+") ";
+    return cb;
+  }
+  
+  /**
+   * Couchbase N1QL 'select'
    */
   static select(Pattern) {
     cb.Sql = "select "+Pattern+" ";
     return cb;
   } 
+         
+  /**
+   * Couchbase N1QL 'from'
+   */                   
+   static from(Bucket_Name) {
+    cb.Sql += "from "+Bucket_Name+" ";
+    return cb;
+   }
   
   /**
-   * Couchbase N1QL 'from ...'
+   * Couchbase N1QL 'where Type=...'
    */
-  static type(Doc_Type){
+  static where_type(Doc_Type){
     Doc_Type = Doc_Type.toUpperCase();
-    cb.Sql += "from "+cb.Bucket_Name+" where Type='"+Doc_Type+"' ";
+    cb.Sql += "where Type='"+Doc_Type+"' ";
     return cb;
   }
   
   /**
-   * Couchbase N1QL 'where .. and'
+   * Couchbase N1QL 'where...'
    */
   static where(Condition) {
-    cb.Sql += "and "+Condition+" ";
+    cb.Sql += "where "+Condition+" ";
     return cb;
   }
    
   /**
-   * Couchbase N1QL 'where .. and'
+   * Couchbase N1QL 'where ... and'
    */
   static and(Condition) {
     cb.Sql += "and "+Condition+" ";

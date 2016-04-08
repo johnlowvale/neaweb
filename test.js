@@ -43,7 +43,7 @@ cb.sql_query("select * from neaweb where Type='USER'",function(Error,Results){
 });
 
 //test sql library query
-cb.select("*").type("user").query(function(Error,Results){
+cb.select("*").from("neaweb").where_type("user").query(function(Error,Results){
   console.log("query:");
   if (Error)
     console.log(Error);
