@@ -37,7 +37,7 @@ class home_handler {
     
     //test sql library query
     cb.select("*").from("neaweb").where_type("user").
-    query(function(Error,Results){     
+    query({},function(Error,Results){     
       //console.log("POST /home");
       //console.log("All users:");
       if (Error)

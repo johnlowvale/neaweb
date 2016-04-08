@@ -25,7 +25,8 @@ Test.hi();
 cb.connect("localhost","neaweb");
 
 //test view query
-cb.view_query("dev_users","find_user",function(Error,Results){
+cb.view_query("dev_users","find_user",
+function(Error,Results){
   console.log("view_query:");
   if (Error)
     console.log(Error);
@@ -34,7 +35,8 @@ cb.view_query("dev_users","find_user",function(Error,Results){
 });
 
 //test raw sql query
-cb.sql_query("select * from neaweb where Type='USER'",function(Error,Results){
+cb.sql_query("select * from neaweb where Type='USER'",
+function(Error,Results){
   console.log("sql_query:");
   if (Error)
     console.log(Error);
@@ -43,7 +45,8 @@ cb.sql_query("select * from neaweb where Type='USER'",function(Error,Results){
 });
 
 //test sql library query
-cb.select("*").from("neaweb").where_type("user").query(function(Error,Results){
+cb.select("*").from("neaweb").where_type("user").query({},
+function(Error,Results){
   console.log("query:");
   if (Error)
     console.log(Error);

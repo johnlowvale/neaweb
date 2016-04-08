@@ -39,9 +39,9 @@ class cb {
   /**
    * Couchbase N1qlQuery
    */
-  static sql_query(Sql_String,Callback) {
+  static sql_query(Sql_String,Params,Callback) {
     var Query = cb.n1ql.fromString(Sql_String);
-    cb.Bucket.query(Query,Callback);
+    cb.Bucket.query(Query,Params,Callback);
   }
        
   /**
@@ -104,8 +104,8 @@ class cb {
   /**
    * Couchbase N1QL query
    */
-  static query(Callback) {
-    cb.sql_query(cb.Sql,Callback);
+  static query(Params,Callback) {
+    cb.sql_query(cb.Sql,Params,Callback);
     return cb;
   }
 }

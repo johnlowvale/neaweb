@@ -13,7 +13,7 @@ class admin_home_product_count_handler {
   
   handle_post(Request,Response) {
     cb.select("*").from("neaweb").where_type("product").
-    query(function(Error,Results){
+    query({},function(Error,Results){
       if (Error) {
         Response.json({Product_Count:0});
         return;

@@ -27,7 +27,8 @@ class register_handler {
       Full_Name:       Body.Full_Name
     };       
     
-    cb.insert_into("neaweb").values("test",User).query(function(Error,Results){
+    cb.insert_into("neaweb").values("xxx",User).query({},
+    function(Error,Results){
       if (Error)
         Response.json(Error);
       else
