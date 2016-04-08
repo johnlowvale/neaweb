@@ -43,7 +43,16 @@ class cb {
     var Query = cb.n1ql.fromString(Sql_String);
     cb.Bucket.query(Query,Params,Callback);
   }
-       
+      
+  /**
+   * Couchbase bucket counter
+   */                        
+  static counter(Key,Callback) {
+    var Delta   = 1;
+    var Options = {initial:0};
+    return cb.Bucket.counter(Key,Delta,Options,Callback);
+  }
+   
   /**
    * Couchbase N1QL 'insert into'
    */                          
