@@ -58,7 +58,7 @@ class server {
    * The response is a scroll template.
    */                       
   handle_get(Request,Response) {
-    console.log(`GET ${Request.path}`);    
+    console.log(`${Request.ip} ${Request.method} ${Request.path}`);    
          
     //check if a dot exists in path
     var Path = Request.path;
@@ -108,7 +108,7 @@ class server {
    * The response is usually JSON data
    */                       
   handle_post(Request,Response) {      
-    console.log(`POST ${Request.path}`);    
+    console.log(`${Request.ip} ${Request.method} ${Request.path}`);    
     
     //default scroll for root url       
     var Path = Request.path;           
