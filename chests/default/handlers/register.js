@@ -30,14 +30,21 @@ class register_handler {
     };       
                                       
     cb.next_id("user",function(Error,Next_Id){
+      if (Error) {
+        console.log("Error in 'register_handler/handle_post':");
+        console.log(Error+"\n");
+        Response.json({Error:Error});
+        return;
+      }
+
       cb.insert().values(Next_Id,User).query({},
       function(Error,Results){
         if (Error)
-          Response.json(Error);
+          Response.json({Error:Error});
         else
           Response.json({Id:Next_Id});
       });//insert
-    });//counter    
+    });//next id    
   }
 }
 

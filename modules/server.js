@@ -36,9 +36,6 @@ class server {
     server.Default_Template = Default_Template;
     server.Default_Locale   = Default_Locale;       
     server.Handlers         = {};
-                               
-    //db connection
-    cb.connect(Database_Host,Database_Name);
     
     //singleton
     server.Self = this;
@@ -170,17 +167,6 @@ class server {
     var Server_Version = server.Server_Version;
     var Server_Port    = server.Server_Port;
     var Default_Chest  = server.Default_Chest;
-    
-    //load handler classes     
-    var Cwd  = process.cwd();                                   
-    var Path = Cwd+"/chests/"+Default_Chest+"/handlers";   
-    console.log("Loading handlers...");
-    this.load_handlers(Path);      
-    console.log("");
-    console.log("Loaded "+this.count(server.Handlers)+" handlers\n");
-         
-    //body parser
-    Server.use(body_parser.json());
           
     //static directories
     Server.use("/libs",  
@@ -195,18 +181,32 @@ class server {
     express.static("chests/"+Default_Chest+"/sections"));
     Server.use("/images",
     express.static("chests/"+Default_Chest+"/images"));
-     
+                                              
+    //body parser
+    Server.use(body_parser.json());
+    
     //catch all gets & posts
     Server.get("*",this.handle_get);      
     Server.post("*",this.handle_post);
+             
+    //load handler classes     
+    var Cwd  = process.cwd();                                   
+    var Path = Cwd+"/chests/"+Default_Chest+"/handlers";   
+    console.log("Loading handlers...");
+    this.load_handlers(Path);      
+    console.log("");
+    console.log("Loaded "+this.count(server.Handlers)+" handlers\n");
+             
+    //db connection
+    cb.connect(server.Database_Host,server.Database_Name);
     
     //start server
     Server.listen(Server_Port,function(){
       console.log(Server_Name+" "+Server_Version+" started at port "+
       Server_Port+"...\n");
     });
-  }
-}
+  }//start
+}//class
 
 //nodejs export
 module.exports = server;

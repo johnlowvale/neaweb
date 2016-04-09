@@ -33,7 +33,6 @@ class home_handler {
    * Handle post request
    */                   
   handle_post(Request,Response) {
-    cb.connect("localhost","neaweb");
     
     //test sql library query
     cb.select("*").where_type("user").

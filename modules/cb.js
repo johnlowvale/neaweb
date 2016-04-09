@@ -20,7 +20,15 @@ class cb {
    */
   static connect(Domain_Name,Bucket_Name) {
     var Cluster = new couchbase.Cluster(Domain_Name);
-    var Bucket  = Cluster.openBucket(Bucket_Name);
+    
+    //connect to db
+    var Bucket = Cluster.openBucket(Bucket_Name,"",function(Error,Result){
+      if (Error) {
+        console.log("Failed to connect to Couchbase:\n"+Error+"\n");
+        return;
+      }
+      console.log("Connected to Couchbase successfully!\n");
+    });
                     
     cb.Domain_Name = Domain_Name;
     cb.Bucket_Name = Bucket_Name;
