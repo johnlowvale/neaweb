@@ -55,11 +55,13 @@ class server {
    * Handle all GET requests  
    * Static files requested but not found may lead to this method too,
    * this method won't handle files, only routes.
+   * The response is a scroll template.
    */                       
   handle_get(Request,Response) {
-    var Path = Request.path;
+    console.log(`GET ${Request.path}`);    
          
     //check if a dot exists in path
+    var Path = Request.path;
     if (Path.indexOf(".")>=0) {
       Response.send("");
       return;
@@ -102,12 +104,14 @@ class server {
   }   
    
   /**
-   * Handle all POST requests
+   * Handle all POST requests      
+   * The response is usually JSON data
    */                       
-  handle_post(Request,Response) {
-    var Path = Request.path;
+  handle_post(Request,Response) {      
+    console.log(`POST ${Request.path}`);    
     
-    //default scroll for root url                  
+    //default scroll for root url       
+    var Path = Request.path;           
     if (Path=="/")
       Path = "/"+server.Default_Scroll;
     if (Path.charAt(Path.length-1)=="/")
