@@ -1,11 +1,12 @@
 
 This project is dependent on these NodeJS modules:
-1. NodeJS core modules
-2. express
-3. body-parser
-4. cookie-parser
-5. couchbase
-6. jsdom
+1. NodeJS core modules (by Joyent Inc.)
+2. express (by StrongLoop Inc.) 
+3. body-parser (a part of ExpressJS)
+4. cookie-parser (a part of ExpressJS)
+5. couchbase (by Couchbase Inc.)
+6. jsdom (by Elijah Insua)
+7. html (by Max Ogden)
 
 //end of file
 
