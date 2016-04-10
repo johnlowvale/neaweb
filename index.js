@@ -28,7 +28,7 @@
  * 1.0 All js/css/html files are packed into one for each URL and locale
  * 1.1 HTML format packed files using js-beautify module
  * 1.3 Import Couchbase design documents when server starts
- * 1.4 Restructured project, put public file in 'public' directory  
+ * 1.4 Restructured project, put public files in 'public' directory  
  */
 "use strict";
 
