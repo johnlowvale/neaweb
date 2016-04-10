@@ -14,6 +14,7 @@ var fs = require("fs");
 var body_parser   = require("body-parser");
 var cookie_parser = require("cookie-parser"); 
 var express       = require("express");
+var html          = require("html");
 var jsdom         = require("jsdom");
 
 //project modules
@@ -189,7 +190,16 @@ class server {
         this.load_handlers(File_Path);
     }
   }   
-           
+         
+  /**
+   * Auto format an HTML file (with JS/CSS inside)
+   */                          
+  html_format(File_Path) {
+    var Html = fs.readFileSync(File_Path,"utf8");
+    var Formatted_Html = html.prettyPrint(Html,{indent_size:2});
+    fs.writeFileSync(File_Path,Formatted_Html,"utf8");
+  }   
+    
   /**
    * Parse a DOM node
    */                
@@ -284,19 +294,16 @@ class server {
         //pack html files into one
         if (server.Htmls[Locale_Name]==null)
           server.Htmls[Locale_Name] = {};
-        server.Htmls[Locale_Name][Key] = 
-        this.pack_html(Sub_Path,true,Locale_Name);   
+        var Packed_Html = this.pack_html(Sub_Path,true,Locale_Name);   
+        Packed_Html = html.prettyPrint(Packed_Html,{indent_size:2});
+        server.Htmls[Locale_Name][Key] = Packed_Html; 
         
         //save to file                                             
         var Packed_Dir  = Cwd+"/chests/"+server.Default_Chest+"/packeds/"+
                           Locale_Name;
         var Packed_File = Key.replace(/\//g,"-").substr(1)+".html";
         this.make_dir(Packed_Dir);
-        fs.writeFileSync(
-          Packed_Dir+"/"+Packed_File,
-          server.Htmls[Locale_Name][Key],
-          "utf8"
-        );
+        fs.writeFileSync(Packed_Dir+"/"+Packed_File,Packed_Html,"utf8");
                     
         //logs    
         console.log("");

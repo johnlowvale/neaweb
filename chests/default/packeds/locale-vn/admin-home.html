@@ -1,121 +1,129 @@
-<!DOCTYPE html><html><head> 
+<!DOCTYPE html>
+<html>
+  
+  <head>
     <meta charset="utf-8">
-    <link rel="icon" href="/images/favicon.png">              
-    
+    <link rel="icon" href="/images/favicon.png">
     <!--libraries-->
-    <script src="/libs/quickt/dev/quickt.js"></script>   
-   
+    <script src="/libs/quickt/dev/quickt.js"></script>
     <!--template js, css-->
-    <script server-src="/templates/simple.js">//end of file</script>
-    <style server-src="/templates/simple.css">body {
-  font-family:georgia; font-size:0.15in; line-height:0.2in;
-  text-align:center; margin:0; padding:0;
-}
-
-li {
-  margin-left:0.2in;
-}
-
-#Scroll-Outer {
-  text-align:left; margin-left:auto; margin-right:auto; width:11.7in;
-  background:wheat; border:1px solid wheat; 
-}
-
-#Scroll-Inner {
-  margin:1in;
-}
-
-/*end of file*/
-</style>
-  </head>  
-         
+    <script server-src="/templates/simple.js">
+      //end of file
+    </script>
+    <style server-src="/templates/simple.css">
+      body {
+        font-family:georgia; font-size:0.15in; line-height:0.2in;
+        text-align:center; margin:0; padding:0;
+      }
+      
+      li {
+        margin-left:0.2in;
+      }
+      
+      #Scroll-Outer {
+        text-align:left; margin-left:auto; margin-right:auto; width:11.7in;
+        background:wheat; border:1px solid wheat; 
+      }
+      
+      #Scroll-Inner {
+        margin:1in;
+      }
+      
+      /*end of file*/
+    </style>
+  </head>
   <!--main content-->
+  
   <body>
     <div id="Scroll-Outer">
-      <div id="Scroll-Inner">    
-        <section server-src="/sections/header.html"><script server-src="/sections/header.js"></script>
-<style server-src="/sections/header.css">#Banner-Image {
-  height:1in;
-}
-
-#Menu-Box {
-  background:burlywood; line-height:0.4in; font-size:30px; display:table-cell;
-  width:9.7in; height:0.4in; vertical-align:middle;
-}
-
-#Menu-Box a {
-  color:maroon; text-decoration:none;
-}
-
-#Menu-Box a:hover {
-  color:green;
-}
-
-/*end of file*/</style>
-
-<div>
-  <img id="Banner-Image" src="/images/banner.png">    
-  <span style="float:right;">
+      <div id="Scroll-Inner">
+        <section server-src="/sections/header.html">
+          <script server-src="/sections/header.js"></script>
+          <style server-src="/sections/header.css">
+            #Banner-Image {
+              height:1in;
+            }
+            
+            #Menu-Box {
+              background:burlywood; line-height:0.4in; font-size:30px; display:table-cell;
+              width:9.7in; height:0.4in; vertical-align:middle;
+            }
+            
+            #Menu-Box a {
+              color:maroon; text-decoration:none;
+            }
+            
+            #Menu-Box a:hover {
+              color:green;
+            }
+            
+            /*end of file*/
+          </style>
+          <div>
+            <img id="Banner-Image" src="/images/banner.png"> <span style="float:right;">
     <a href="/register">Register</a> | 
     <a href="/log-in">Log-in</a> | 
     <a href="/log-out">Log-out</a>
   </span>
-</div>
-<div id="Menu-Box">&nbsp;
-  <a href="/home">Home</a> |
-  <a href="/products">Products</a> |
-  <a href="/cart">Cart</a>&nbsp;
-  <input style="width:3in; position:relative; top:-4px;" placeholder="Enter product name or description" onclick="this.value='';">
-  <button style="position:relative; top:-4px;">Search</button>
-</div>
-<hr>
 
-<!--end of file--></section>     
-        <main server-src="/mains/admin/home.html"><script server-src="/mains/admin/home.js">var Product_Count = 0;
-
-function get_product_count() {
-  post("/admin/home/product-count",{},function(Error,Data){
-    if (Error) {
-      alert("Error "+Error);
-      return;
-    }         
-    
-    Product_Count = Data.Product_Count;
-    parse("Product-Count");
-  });
-}
-
-//end of file</script>
-<style server-src="/mains/admin/home.css"></style>
-
-<title>Admin Home</title>
-<div id="Admin-Home">
-  <big>/admin/home</big><br>
-  Số Lượng Sản Phẩm: 
-  <span pre-parsing="get_product_count()">
+          </div>
+          <div id="Menu-Box">&nbsp; <a href="/home">Home</a> | <a href="/products">Products</a> | <a href="/cart">Cart</a>&nbsp;
+            <input
+            style="width:3in; position:relative; top:-4px;" placeholder="Enter product name or description"
+            onclick="this.value='';">
+              <button style="position:relative; top:-4px;">Search</button>
+          </div>
+          <hr>
+          <!--end of file-->
+        </section>
+        <main server-src="/mains/admin/home.html">
+          <script server-src="/mains/admin/home.js">
+            var Product_Count = 0;
+            
+            function get_product_count() {
+              post("/admin/home/product-count",{},function(Error,Data){
+                if (Error) {
+                  alert("Error "+Error);
+                  return;
+                }         
+                
+                Product_Count = Data.Product_Count;
+                parse("Product-Count");
+              });
+            }
+            
+            //end of file
+          </script>
+          <style server-src="/mains/admin/home.css"></style>
+          <title>Admin Home</title>
+          <div id="Admin-Home"> <big>/admin/home</big>
+            <br>Số Lượng Sản Phẩm: <span pre-parsing="get_product_count()">
     <span id="Product-Count">${Product_Count}</span>
-  </span>
-</div>
-
-<!--end of file--></main>   
-        <section server-src="/sections/footer.html"><script server-src="/sections/footer.js"></script>
-<style server-src="/sections/footer.css">#Footer-Box {
-  text-align:right;
-}
-
-/*end of file*/</style>
-
-<hr>
-<div id="Footer-Box">
-Freeware by Stinte Ltd<br>
-Powered by Couchbase, NodeJS, ExpressJS, and Quickt<br>
+</span>
+          </div>
+          <!--end of file-->
+        </main>
+        <section server-src="/sections/footer.html">
+          <script server-src="/sections/footer.js"></script>
+          <style server-src="/sections/footer.css">
+            #Footer-Box {
+              text-align:right;
+            }
+            
+            /*end of file*/
+          </style>
+          <hr>
+          <div id="Footer-Box">Freeware by Stinte Ltd
+            <br>Powered by Couchbase, NodeJS, ExpressJS, and Quickt
+            <br>
 <a target="_blank" href="/admin/home">Admin Home</a>
-</div> 
 
-<!--end of file--></section>
+          </div>
+          <!--end of file-->
+        </section>
       </div>
     </div>
-  
+  </body>
 
-
-</body></html><!--end of file-->
+</html>
+<!--end of file-->
