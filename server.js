@@ -21,7 +21,9 @@
  * 0.2 Fixed bug calling handle_post on undefined
  * 0.3 server.handle_get only handles routes, not files. 
  * 0.4 Added locale files and locale option when creating server
- * 0.5 Added logs for loading handlers
+ * 0.5 Added logs for loading handlers      
+ * 1.0 All js/css/html files are packed into one for each URL and locale
+ *     This version 1.0 is initial release.
  */
 "use strict";
 
@@ -30,7 +32,7 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   =  0.5;
+var SERVER_VERSION   =  1.0;
 var SERVER_PORT      =  80;
 var DATABASE_HOST    = "localhost";
 var DATABASE_NAME    = "neaweb";
