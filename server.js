@@ -23,7 +23,7 @@
  * 0.4 Added locale files and locale option when creating server
  * 0.5 Added logs for loading handlers      
  * 1.0 All js/css/html files are packed into one for each URL and locale
- *     This version 1.0 is initial release.
+ * 1.1 HTML format packed files using js-beautify module  
  */
 "use strict";
 
@@ -32,7 +32,7 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   = "1.0";
+var SERVER_VERSION   = "1.1";
 var SERVER_PORT      =  80;
 var DATABASE_HOST    = "localhost";
 var DATABASE_NAME    = "neaweb";

@@ -2,7 +2,7 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Server module
- * @version 0.1
+ * @version 1.1
  * @author  John Lowvale
  */         
 "use strict"; 
@@ -14,7 +14,6 @@ var fs = require("fs");
 var body_parser   = require("body-parser");
 var cookie_parser = require("cookie-parser"); 
 var express       = require("express");
-var html          = require("html");
 var js_beautify   = require("js-beautify");
 var jsdom         = require("jsdom");
 
@@ -193,15 +192,6 @@ class server {
   }   
          
   /**
-   * Auto format an HTML file (with JS/CSS inside)
-   */                          
-  html_format(File_Path) {
-    var Html = fs.readFileSync(File_Path,"utf8");
-    var Formatted_Html = html.prettyPrint(Html,{indent_size:2});
-    fs.writeFileSync(File_Path,Formatted_Html,"utf8");
-  }   
-    
-  /**
    * Parse a DOM node
    */                
   parse_node(Node,Locale_Name) {
@@ -297,13 +287,7 @@ class server {
           server.Htmls[Locale_Name] = {};
         var Packed_Html = this.pack_html(Sub_Path,true,Locale_Name);
         
-        //pretty print
-        /*   
-        Packed_Html = html.prettyPrint(Packed_Html,{
-          indent_size:2
-        });
-        */
-        //original library is better
+        //pretty print by jsbeautifier.org
         Packed_Html = js_beautify.html(Packed_Html,{     
           indent_size:     2, //OK
           wrap_line_length:80 //not working!
