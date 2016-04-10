@@ -15,6 +15,7 @@ var body_parser   = require("body-parser");
 var cookie_parser = require("cookie-parser"); 
 var express       = require("express");
 var html          = require("html");
+var js_beautify   = require("js-beautify");
 var jsdom         = require("jsdom");
 
 //project modules
@@ -296,9 +297,16 @@ class server {
           server.Htmls[Locale_Name] = {};
         var Packed_Html = this.pack_html(Sub_Path,true,Locale_Name);
         
-        //pretty print   
+        //pretty print
+        /*   
         Packed_Html = html.prettyPrint(Packed_Html,{
           indent_size:2
+        });
+        */
+        //original library is better
+        Packed_Html = js_beautify.html(Packed_Html,{     
+          indent_size:     2, //OK
+          wrap_line_length:80 //not working!
         });
         server.Htmls[Locale_Name][Key] = Packed_Html; 
         
