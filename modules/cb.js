@@ -67,7 +67,7 @@ class cb {
   }
    
   /**
-   * Couchbase N1QL 'insert into'
+   * Couchbase N1QL 'insert into...'
    */                          
   static insert() {
     cb.Sql = "insert into "+cb.Bucket_Name+" ";
@@ -75,7 +75,7 @@ class cb {
   }                                     
   
   /**
-   * Couchbase N1QL 'values'
+   * Couchbase N1QL 'values...'
    */                        
   static values(Key,Value) {
     cb.Sql += "values (\""+Key+"\","+JSON.stringify(Value)+") ";
@@ -83,7 +83,7 @@ class cb {
   }
   
   /**
-   * Couchbase N1QL 'select'
+   * Couchbase N1QL 'select...'
    */
   static select(Pattern) {
   
@@ -120,10 +120,58 @@ class cb {
   }
    
   /**
-   * Couchbase N1QL 'where ... and'
+   * Couchbase N1QL 'and...'
    */
   static and(Condition) {
     cb.Sql += "and "+Condition+" ";
+    return cb;
+  }
+       
+  /**
+   * Couchbase N1QL 'update...'
+   */                          
+  static update() {         
+    cb.Sql = "update "+cb.Bucket_Name+" ";
+    return cb;
+  }   
+   
+  /**
+   * Couchbase N1QL 'use keys...'
+   */                          
+  static use_keys(Keys) {         
+    cb.Sql += "use keys \""+Keys+"\" ";
+    return cb;
+  }         
+  
+  /**
+   * Couchbase N1QL 'set...'
+   */                          
+  static set(Assignment) {         
+    cb.Sql += "set "+Assignment+" ";
+    return cb;
+  }                     
+  
+  /**
+   * Couchbase N1QL 'returning...'
+   */                          
+  static returning(Obj_Path) {         
+    cb.Sql += "returning "+Obj_Path+" ";
+    return cb;
+  }
+      
+  /**
+   * Couchbase N1QL 'upsert into...'
+   */                          
+  static upsert() {
+    cb.Sql = "upsert into "+cb.Bucket_Name+" ";
+    return cb;
+  }
+   
+  /**
+   * Couchbase N1QL 'delete from...'
+   */                          
+  static delete() {
+    cb.Sql = "delete from "+cb.Bucket_Name+" ";
     return cb;
   }
   
