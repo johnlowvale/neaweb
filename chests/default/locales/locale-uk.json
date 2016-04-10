@@ -2,5 +2,6 @@
   "HOME":"Home",
   "PRODUCTS":"Products",
   "CART":"Cart",
-  "NUMBER_OF_PRODUCTS":"Number of Products"
+  "NUMBER_OF_PRODUCTS":"Number of Products",
+  "YOUR_REQUESTED_CONTENT_IS_NOT_FOUND":"Your requested content is not found!"
 }

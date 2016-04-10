@@ -94,8 +94,16 @@ class server {
     var Html = server.Htmls[Locale_Name][Path];
     if (Html!=null)
       Response.send(Html);
-    else
-      Response.send("");                         
+    else {         
+      if (server.Htmls[Locale_Name]["/not-found"])    
+        Response.send(`
+          <script> 
+          top.location = "/not-found";
+          </script>
+        `);
+      else
+        Response.send("/not-found"); 
+    }                        
   }   
    
   /**
