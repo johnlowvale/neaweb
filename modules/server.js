@@ -486,18 +486,8 @@ class server {
     this.Express = Express;
           
     //static directories
-    Express.use("/libs",  
-    express.static("chests/"+Default_Chest+"/libs")); 
-    Express.use("/locales",  
-    express.static("chests/"+Default_Chest+"/locales"));
-    Express.use("/templates",
-    express.static("chests/"+Default_Chest+"/templates"));     
-    Express.use("/mains",
-    express.static("chests/"+Default_Chest+"/mains"));        
-    Express.use("/sections",
-    express.static("chests/"+Default_Chest+"/sections"));
-    Express.use("/images",
-    express.static("chests/"+Default_Chest+"/images"));
+    Express.use("/public",
+    express.static("chests/"+Default_Chest+"/public"));
                                               
     //body parser & cookie parser
     Express.use(body_parser.json());
