@@ -2,15 +2,17 @@
 "use strict";
 
 //project modules
-var cb    = require(process.cwd()+"/modules/cb");
-var utils = require(process.cwd()+"/modules/utils");
+var cb       = require(process.cwd()+"/modules/cb");
+var security = require(process.cwd()+"/modules/security");
+var utils    = require(process.cwd()+"/modules/utils");
 
 class register_handler {
 
   constructor() {
   }
   
-  handle_get(Request,Response) {
+  handle_get(Request,Response) {              
+    return security.PASSED;
   }
   
   handle_post(Request,Response) {

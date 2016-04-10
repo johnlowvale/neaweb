@@ -8,7 +8,8 @@
 "use strict";
 
 //project modules
-var cb = require(process.cwd()+"/modules/cb");
+var cb       = require(process.cwd()+"/modules/cb");
+var security = require(process.cwd()+"/modules/security");
 
 /**
  * Request handler on home scroll
@@ -26,7 +27,7 @@ class home_handler {
    * Handle get request
    */                   
   handle_get(Request,Response) {
-    //
+    return security.PASSED; 
   }   
   
   /**

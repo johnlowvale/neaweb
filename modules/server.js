@@ -2,7 +2,7 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Server module
- * @version 1.0
+ * @version 1.5 (see root index.js for info)
  * @author  John Lowvale
  */         
 "use strict"; 
@@ -18,7 +18,8 @@ var js_beautify   = require("js-beautify");
 var jsdom         = require("jsdom");
 
 //project modules
-var cb = require("./cb");
+var cb       = require("./cb");
+var security = require("./security");
 
 /**
  * Main server class
@@ -88,6 +89,48 @@ class server {
   }
   
   /**
+   * Redirect to /no-handler or send "/no-handler"
+   */                                           
+  no_handler(Request,Response) {       
+  
+    //check locale in cookies
+    var Locale_Name = Request.cookies.locale;
+    if (Locale_Name==null)
+      Locale_Name = server.Default_Locale;
+                                          
+    //check prepared html  
+    if (server.Htmls[Locale_Name]["/no-handler"])    
+      Response.send(`
+        <script> 
+        top.location = "/no-handler";
+        </script>
+      `);
+    else
+      Response.send("/no-handler");
+  }
+              
+  /**
+   * Redirect to /not-found or send "/not-found"
+   */                                           
+  not_found(Request,Response) {   
+    
+    //check locale in cookies
+    var Locale_Name = Request.cookies.locale;
+    if (Locale_Name==null)
+      Locale_Name = server.Default_Locale;
+                                          
+    //check prepared html
+    if (server.Htmls[Locale_Name]["/not-found"])    
+      Response.send(`
+        <script> 
+        top.location = "/not-found";
+        </script>
+      `);
+    else
+      Response.send("/not-found");
+  }  
+  
+  /**
    * Handle all GET requests  
    * Static files requested but not found may lead to this method too,
    * this method won't handle files, only routes.
@@ -110,18 +153,30 @@ class server {
       
     //get html
     var Html = server.Htmls[Locale_Name][Path];
-    if (Html!=null)
-      Response.send(Html);
-    else {         
-      if (server.Htmls[Locale_Name]["/not-found"])    
-        Response.send(`
-          <script> 
-          top.location = "/not-found";
-          </script>
-        `);
-      else
-        Response.send("/not-found"); 
-    }                        
+    if (Html!=null) {
+      if (Path=="/not-found") 
+        Response.send(Html);
+      else {   
+      
+        //get handler
+        var Handler_Class = server.Handlers[Path];
+        if (Handler_Class!=null)
+          var Handler_Instance = new Handler_Class();
+        else {
+          server.Self.no_handler(Request,Response);
+          return;
+        }    
+        
+        //send packed html       
+        var Security_Result = Handler_Instance.handle_get(Request,Response);
+        if (Security_Result==security.PASSED)
+          Response.send(Html);
+        else
+          Response.send("/access-denied");
+      }
+    }
+    else
+      server.Self.not_found(Request,Response);                     
   }   
    
   /**
@@ -143,7 +198,7 @@ class server {
     if (Handler_Class!=null)
       var Handler_Instance = new Handler_Class();
     else {
-      Response.json({error:"NO-HANDLER-FOUND"});
+      Response.json({Error:"NO-HANDLER-FOUND"});
       return;
     }
     
