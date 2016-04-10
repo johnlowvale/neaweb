@@ -44,6 +44,10 @@ class server {
     server.Handlers         = {}; //data request handlers    
     server.Htmls            = {}; //prepared htmls  
     server.Cbdds            = {}; //couchbase design documents     
+        
+    //less important variables
+    server.Upsert_Count = 0;
+    server.Upsert_Done  = false;
     
     //singleton
     server.Self = this;
@@ -379,10 +383,6 @@ class server {
     //loop thru' files
     for (var Index=0; Index<Files.length; Index++) {
       var File_Name = Files[Index];
-    
-      //skip non-js files
-      if (File_Name.match(/.+\.js/)==null)
-        continue;
                                   
       //design document name
       var Design_Name = File_Name.replace(".js","");
@@ -432,16 +432,42 @@ class server {
       }//for jndex
       
       //upsert into couchbase
+      server.Upsert_Count = 0;
+      server.Upsert_Done  = false;      
+      console.log(`Upserting design document '${Design_Name}'`);                                          
       cb.upsert_design_doc(Design_Name,Design_Doc,function(Error,Result){
-        if (Error) {
-          console.log(`Failed to upsert '${Design_Name}'!`);      
+        if (Error) {                
           console.log(Error);
           return;
-        }                            
-        console.log(`Upserted design document '${Design_Name}'\n`);
+        }
+             
+        //upsert status
+        server.Upsert_Count++;
+        if (server.Upsert_Count==Files.length)
+          server.Upsert_Done = true;
+            
+        //log
+        console.log(`Upserted ${server.Upsert_Count} design document(s)`);
       });//upsert
     }//for index
   }//upsert design docs   
+         
+  /**
+   * Start listening for request
+   */                           
+  listen() {
+    if (server.Upsert_Done==false) {
+      setTimeout(this.listen,1000);
+      return;
+    }
+  
+    //start server
+    server.Self.Express.listen(server.Server_Port,function(){
+      console.log("\n"+server.Server_Name+" "+
+      server.Server_Version+" started at port "+
+      server.Server_Port+"...\n");
+    });
+  }   
   
   /**
    * Start server
@@ -455,6 +481,9 @@ class server {
     var Server_Version = server.Server_Version;
     var Server_Port    = server.Server_Port;
     var Default_Chest  = server.Default_Chest;
+    
+    //save reference  
+    this.Express = Express;
           
     //static directories
     Express.use("/libs",  
@@ -506,14 +535,11 @@ class server {
       }    
       console.log("Upserting Couchbase design documents...\n");     
       var Server = server.Self;
-      Server.upsert_design_docs();      
-      
-      //start server
-      Express.listen(Server_Port,function(){
-        console.log(Server_Name+" "+Server_Version+" started at port "+
-        Server_Port+"...\n");
-      });
+      Server.upsert_design_docs();
     });//db connect
+    
+    //start server
+    this.listen();
   }//start
 }//class
 
