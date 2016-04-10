@@ -32,7 +32,7 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   =  1.0;
+var SERVER_VERSION   = "1.0";
 var SERVER_PORT      =  80;
 var DATABASE_HOST    = "localhost";
 var DATABASE_NAME    = "neaweb";
