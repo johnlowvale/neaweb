@@ -2,7 +2,7 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Server module
- * @version 1.1
+ * @version 1.3
  * @author  John Lowvale
  */         
 "use strict"; 

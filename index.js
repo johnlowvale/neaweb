@@ -2,7 +2,7 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Server booting file
- * @version 1.2
+ * @version 1.3
  * @author  John Lowvale 
  *
  * Notes:
@@ -24,7 +24,7 @@
  * 0.5 Added logs for loading handlers      
  * 1.0 All js/css/html files are packed into one for each URL and locale
  * 1.1 HTML format packed files using js-beautify module
- * 1.2 Import Couchbase design documents when server starts  
+ * 1.3 Import Couchbase design documents when server starts  
  */
 "use strict";
 
@@ -33,7 +33,7 @@ var server = require("./modules/server");
 
 //constants
 var SERVER_NAME      = "Neaweb";
-var SERVER_VERSION   = "1.2";
+var SERVER_VERSION   = "1.3";
 var SERVER_PORT      =  80;
 var DATABASE_HOST    = "localhost";
 var DATABASE_NAME    = "neaweb";
