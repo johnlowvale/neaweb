@@ -8,8 +8,8 @@
 "use strict"; 
  
 //project modules
-var cb   = require("./modules/cb");
-var test = require("./modules/test");
+var cb   = require("../modules/cb");
+var test = require("../modules/test");
 
 //log out imported module
 console.log(test);
@@ -25,7 +25,7 @@ Test.hi();
 cb.connect("localhost","neaweb");
 
 //test view query
-cb.view_query("dev_users","find_user",
+cb.view_query("dev_generics","all_documents",
 function(Error,Results){
   console.log("view_query:");
   if (Error)

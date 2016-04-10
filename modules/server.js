@@ -39,10 +39,11 @@ class server {
     server.Default_Chest    = Default_Chest;
     server.Default_Scroll   = Default_Scroll;      
     server.Default_Template = Default_Template;
-    server.Default_Locale   = Default_Locale;       
-    server.Handlers         = {};    
-    server.Htmls            = {};  
-    server.Locales          = {};
+    server.Default_Locale   = Default_Locale;
+    server.Locales          = {}; //language locales       
+    server.Handlers         = {}; //data request handlers    
+    server.Htmls            = {}; //prepared htmls  
+    server.Cbdds            = {}; //couchbase design documents
     
     //singleton
     server.Self = this;
@@ -69,6 +70,18 @@ class server {
       //
     }
   }   
+             
+  /**
+   * Extract some constants from 'jsdom' module
+   */           
+  extract_constants() {
+    var Doc    = jsdom.jsdom("blank");
+    var Window = Doc.defaultView;
+                              
+    server.JSDOM_COMMENT_NODE = Window.Node.COMMENT_NODE;
+    server.JSDOM_ELEMENT_NODE = Window.Node.ELEMENT_NODE;
+    server.JSDOM_TEXT_NODE    = Window.Node.TEXT_NODE;    
+  }
   
   /**
    * Handle all GET requests  
@@ -132,31 +145,49 @@ class server {
     
     //call handler                            
     Handler_Instance.handle_post(Request,Response);
-  }
-                               
+  }  
+            
   /**
-   * Make temporary template for a scroll with specific main section
-   */                                                               
-  make_temp_template(Url_Path,Locale_Name) {
-    var Cwd           = process.cwd();
-    var Template_File = Cwd+"/chests/"+server.Default_Chest+"/templates/"+
-                        server.Default_Template+".html"; 
-    var Template_Html = fs.readFileSync(Template_File,"utf8");
-    var Main_Path     = "/mains"+Url_Path+".html";
+   * Get locales
+   */               
+  load_locales() {           
+    var Cwd   = process.cwd(); 
+    var Chest = server.Default_Chest;
+    var Path  = Cwd+"/chests/"+Chest+"/locales"; 
+    var Files = fs.readdirSync(Path);
     
-    //eval
-    Template_Html = eval("`"+Template_Html+"`");
-    
-    //make temporary template file  
-    var Temp_Name = Url_Path.replace(/\//g,"-").substr(1);       
-    var Temp_Dir  = Cwd+"/chests/"+server.Default_Chest+"/temp/"+Locale_Name;
-    var Temp_File = Temp_Dir+"/"+Temp_Name+".html";
-    this.make_dir(Temp_Dir);
-    fs.writeFileSync(Temp_File,Template_Html,"utf8");
-    
-    //return sub-path from chest root
-    return "/temp/"+Locale_Name+"/"+Temp_Name+".html";                            
-  }   
+    //loop thru' files to get locale files
+    for (var Index=0; Index<Files.length; Index++) {
+      if (Files[Index].match(/.*\.json/)) {       
+        var File = Files[Index];        
+        var Json = fs.readFileSync(Path+"/"+File,"utf8");
+        var Obj  = {};        
+        
+        //parse locale json
+        console.log(`\nParsing locale ${File}...`);
+        try {
+          Obj = JSON.parse(Json);          
+        }
+        catch (Error) {
+          console.log("Error: "+Error);
+          continue;
+        }     
+                                
+        //create a locale
+        var Locale_Name = File.replace(/\.json/g,"");
+        if (server.Locales[Locale_Name]==null)
+          server.Locales[Locale_Name] = {};
+          
+        //push phrases into server.Locales
+        for (var Key in Obj) {
+          var Value = Obj[Key];
+          server.Locales[Locale_Name][Key] = Value;
+        }                       
+        
+        console.log("Parsed.");
+      }//if                                         
+    }//for      
+  }//load locales
   
   /**
    * Load request handlers    
@@ -190,7 +221,31 @@ class server {
         this.load_handlers(File_Path);
     }
   }   
-         
+        
+  /**
+   * Make temporary template for a scroll with specific main section
+   */                                                               
+  make_temp_template(Url_Path,Locale_Name) {
+    var Cwd           = process.cwd();
+    var Template_File = Cwd+"/chests/"+server.Default_Chest+"/templates/"+
+                        server.Default_Template+".html"; 
+    var Template_Html = fs.readFileSync(Template_File,"utf8");
+    var Main_Path     = "/mains"+Url_Path+".html";
+    
+    //eval
+    Template_Html = eval("`"+Template_Html+"`");
+    
+    //make temporary template file  
+    var Temp_Name = Url_Path.replace(/\//g,"-").substr(1);       
+    var Temp_Dir  = Cwd+"/chests/"+server.Default_Chest+"/temp/"+Locale_Name;
+    var Temp_File = Temp_Dir+"/"+Temp_Name+".html";
+    this.make_dir(Temp_Dir);
+    fs.writeFileSync(Temp_File,Template_Html,"utf8");
+    
+    //return sub-path from chest root
+    return "/temp/"+Locale_Name+"/"+Temp_Name+".html";                            
+  }
+   
   /**
    * Parse a DOM node
    */                
@@ -311,60 +366,13 @@ class server {
         this.pack_htmls(File_Path,Locale_Name);
     }
   }
-                           
-  /**
-   * Get locales
-   */               
-  load_locales() {           
-    var Cwd   = process.cwd(); 
-    var Chest = server.Default_Chest;
-    var Path  = Cwd+"/chests/"+Chest+"/locales"; 
-    var Files = fs.readdirSync(Path);
-    
-    //loop thru' files to get locale files
-    for (var Index=0; Index<Files.length; Index++) {
-      if (Files[Index].match(/.*\.json/)) {       
-        var File = Files[Index];        
-        var Json = fs.readFileSync(Path+"/"+File,"utf8");
-        var Obj  = {};        
         
-        //parse locale json
-        console.log(`\nParsing locale ${File}...`);
-        try {
-          Obj = JSON.parse(Json);          
-        }
-        catch (Error) {
-          console.log("Error: "+Error);
-          continue;
-        }     
-                                
-        //create a locale
-        var Locale_Name = File.replace(/\.json/g,"");
-        if (server.Locales[Locale_Name]==null)
-          server.Locales[Locale_Name] = {};
-          
-        //push phrases into server.Locales
-        for (var Key in Obj) {
-          var Value = Obj[Key];
-          server.Locales[Locale_Name][Key] = Value;
-        }                       
-        
-        console.log("Parsed.");
-      }//if                                         
-    }//for      
-  }//load locales
-  
   /**
-   * Extract some constants from 'jsdom' module
-   */           
-  extract_constants() {
-    var Doc    = jsdom.jsdom("blank");
-    var Window = Doc.defaultView;
-                              
-    server.JSDOM_COMMENT_NODE = Window.Node.COMMENT_NODE;
-    server.JSDOM_ELEMENT_NODE = Window.Node.ELEMENT_NODE;
-    server.JSDOM_TEXT_NODE    = Window.Node.TEXT_NODE;    
-  }
+   * Upsert Couchbase design documents from 'cbdds' directory
+   */
+  upsert_design_docs() {
+    //
+  }   
   
   /**
    * Start server
@@ -373,33 +381,33 @@ class server {
     this.extract_constants();
      
     //expressjs instance
-    var Server         = express();
+    var Express        = express();
     var Server_Name    = server.Server_Name;
     var Server_Version = server.Server_Version;
     var Server_Port    = server.Server_Port;
     var Default_Chest  = server.Default_Chest;
           
     //static directories
-    Server.use("/libs",  
+    Express.use("/libs",  
     express.static("chests/"+Default_Chest+"/libs")); 
-    Server.use("/locales",  
+    Express.use("/locales",  
     express.static("chests/"+Default_Chest+"/locales"));
-    Server.use("/templates",
+    Express.use("/templates",
     express.static("chests/"+Default_Chest+"/templates"));     
-    Server.use("/mains",
+    Express.use("/mains",
     express.static("chests/"+Default_Chest+"/mains"));        
-    Server.use("/sections",
+    Express.use("/sections",
     express.static("chests/"+Default_Chest+"/sections"));
-    Server.use("/images",
+    Express.use("/images",
     express.static("chests/"+Default_Chest+"/images"));
                                               
     //body parser & cookie parser
-    Server.use(body_parser.json());
-    Server.use(cookie_parser());
+    Express.use(body_parser.json());
+    Express.use(cookie_parser());
     
     //catch all gets & posts
-    Server.get("*",this.handle_get);      
-    Server.post("*",this.handle_post);
+    Express.get("*",this.handle_get);      
+    Express.post("*",this.handle_post);
           
     //load locales     
     console.log("Loading locales...");
@@ -421,13 +429,24 @@ class server {
     console.log("\nPacked HTMLs for "+this.count(server.Htmls)+" locales\n");
             
     //db connection
-    cb.connect(server.Database_Host,server.Database_Name);
-    
-    //start server
-    Server.listen(Server_Port,function(){
-      console.log(Server_Name+" "+Server_Version+" started at port "+
-      Server_Port+"...\n");
-    });
+    cb.connect(server.Database_Host,server.Database_Name,
+    function(Error,Result){
+      if (Error) {
+        console.log("No DB connection, server halted!");
+        process.exit();
+      }    
+      console.log("Upserting Couchbase design documents...");     
+      var Server = server.Self;
+      Server.upsert_design_docs();
+      console.log("\nUpserted "+Server.count(server.Cbdds)+" design docs\n");
+      
+      //start server
+      //start server
+      Express.listen(Server_Port,function(){
+        console.log(Server_Name+" "+Server_Version+" started at port "+
+        Server_Port+"...\n");
+      });
+    });//db connect
   }//start
 }//class
 

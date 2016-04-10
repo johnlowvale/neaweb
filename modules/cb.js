@@ -23,7 +23,7 @@ class cb {
   /**
    * Create couchbase connection
    */
-  static connect(Domain_Name,Bucket_Name) {
+  static connect(Domain_Name,Bucket_Name,Callback) {
     var Cluster = new couchbase.Cluster(Domain_Name);
     
     //connect to db
@@ -33,6 +33,7 @@ class cb {
         return;
       }
       console.log("Connected to Couchbase successfully!\n");
+      Callback(Error,Result);
     });
                     
     cb.Domain_Name = Domain_Name;
