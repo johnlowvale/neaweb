@@ -5,6 +5,7 @@ This project is dependent on these NodeJS modules:
 3. body-parser
 4. cookie-parser
 5. couchbase
+6. jsdom
 
 //end of file
 
