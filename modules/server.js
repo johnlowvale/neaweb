@@ -294,8 +294,12 @@ class server {
         //pack html files into one
         if (server.Htmls[Locale_Name]==null)
           server.Htmls[Locale_Name] = {};
-        var Packed_Html = this.pack_html(Sub_Path,true,Locale_Name);   
-        Packed_Html = html.prettyPrint(Packed_Html,{indent_size:2});
+        var Packed_Html = this.pack_html(Sub_Path,true,Locale_Name);
+        
+        //pretty print   
+        Packed_Html = html.prettyPrint(Packed_Html,{
+          indent_size:2
+        });
         server.Htmls[Locale_Name][Key] = Packed_Html; 
         
         //save to file                                             
