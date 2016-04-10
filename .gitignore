@@ -1,2 +1,2 @@
-chests/default/temp/*
-chests/default/packeds/*
+chests/default/temp/**/*
+chests/default/packeds/**/*
