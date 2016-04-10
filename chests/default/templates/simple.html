@@ -6,10 +6,7 @@
     
     <!--libraries-->
     <script src="/libs/quickt/dev/quickt.js"></script>   
-      
-    <!--locale-->
-    <script src="/locales/${Locale_Name}.js"></script>
-    
+   
     <!--template js, css-->
     <script src="/templates/simple.js"></script>
     <link rel="stylesheet" href="/templates/simple.css"/>
@@ -19,11 +16,11 @@
   <body>
     <div id="Scroll-Outer">
       <div id="Scroll-Inner">    
-        <section content-url="/sections/header.html">
+        <section server-src="/sections/header.html">
         </section>     
-        <main content-url="${Main_Section_Url}">
+        <main server-src="${Main_Path}">
         </main>   
-        <section content-url="/sections/footer.html">
+        <section server-src="/sections/footer.html">
         </section>
       </div>
     </div>

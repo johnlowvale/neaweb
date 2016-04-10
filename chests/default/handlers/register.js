@@ -1,11 +1,9 @@
 
 "use strict";
 
-//nodejs modules
-var sha1 = require("sha1");
-
 //project modules
-var cb = require(process.cwd()+"/modules/cb");
+var cb    = require(process.cwd()+"/modules/cb");
+var utils = require(process.cwd()+"/modules/utils");
 
 class register_handler {
 
@@ -22,7 +20,7 @@ class register_handler {
     var User = {
       Type:            "USER",
       Username:        Body.Username,
-      Password_Sha1:   sha1(Body.Username.toLowerCase()+Body.Password),
+      Password_Sha1:   utils.sha1(Body.Username.toLowerCase()+Body.Password),
       Email:           Body.Email,
       Given_Name:      Body.Given_Name,
       Family_Name:     Body.Family_Name,

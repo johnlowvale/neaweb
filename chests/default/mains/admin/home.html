@@ -1,10 +1,10 @@
-<script content-url="/mains/admin/home.js" content-eval="true"></script>
-<link rel="stylesheet" href="/mains/admin/home.css"/>
+<script server-src="/mains/admin/home.js"></script>
+<style server-src="/mains/admin/home.css"></style>
 
 <title>Admin Home</title>
 <div id="Admin-Home">
   <big>/admin/home</big><br/>
-  ${NUMBER_OF_PRODUCTS__}: 
+  %{NUMBER_OF_PRODUCTS}: 
   <span pre-parsing="get_product_count()">
     <span id="Product-Count">${Product_Count}</span>
   </span>
