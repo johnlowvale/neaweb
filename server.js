@@ -2,7 +2,7 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Main server file
- * @version 0.1
+ * @version 1.1
  * @author  John Lowvale 
  *
  * Notes:
