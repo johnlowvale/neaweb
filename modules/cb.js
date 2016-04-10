@@ -86,7 +86,18 @@ class cb {
    * Couchbase N1QL 'select'
    */
   static select(Pattern) {
-    cb.Sql = "select meta("+cb.Bucket_Name+").id,"+Pattern+" "+
+  
+    //make fields
+    var Tokens = Pattern.split(",");
+    var Fields = "";
+    for (var Index=0; Index<Tokens.length; Index++) {
+      Fields += cb.Bucket_Name+"."+Tokens[Index];
+      if (Index<Tokens.length-1)
+        Fields += ",";
+    }
+    
+    //do select
+    cb.Sql = "select meta("+cb.Bucket_Name+").id as Id,"+Fields+" "+
     "from "+cb.Bucket_Name+" ";
     return cb;
   }
