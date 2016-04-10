@@ -1,5 +1,5 @@
 
-//all_documents/map:
+//all_documents/map
 function all_documents(Doc,Meta) {
   Doc.Id = Meta.id;
   emit(Doc.Id,Doc);
