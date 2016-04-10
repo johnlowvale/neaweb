@@ -5,6 +5,9 @@
  * @version 1.3
  * @author  John Lowvale 
  *
+ * Run:
+ * node index.js      
+ *
  * Notes:
  * Current NodeJS version for this project is NodeJS 4.x as
  * - NodeJS 0.12.x is too old
