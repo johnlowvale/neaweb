@@ -3,7 +3,12 @@
  * Freeware by Stinte Ltd
  * @file    Couchbase Interface Class File
  * @author  John Lowvale
- * @version 0.1
+ * @version 0.3    
+ *
+ * Version info:
+ * 0.1 Preliminary code
+ * 0.2 Added N1QL 'update', 'upsert', 'delete'
+ * 0.3 Added methods for working on design documents
  */
 "use strict";
 
@@ -181,8 +186,59 @@ class cb {
   static query(Params,Callback) {
     cb.sql_query(cb.Sql,Params,Callback);
     return cb;
-  }
-}
+  }        
+                   
+  /**
+   * Insert design documents
+   */                       
+  static insert_design_doc(Design_Name,Design_Doc,Callback) {     
+    var Manager = cb.Bucket.manager();
+    Manager.insertDesignDocument(Design_Name,Design_Doc,
+    function(Error,Result){
+      Callback(Error,Result);
+    });
+  }   
+   
+  /**
+   * Get design document
+   */                   
+  static get_design_doc(Design_Name,Callback) {
+    var Manager = cb.Bucket.manager();
+    Manager.getDesignDocument(Design_Name,function(Error,Design_Doc){
+      Callback(Error,Design_Doc);
+    });
+  }   
+  
+  /**
+   * Get design documents 
+   */                     
+  static get_design_docs(Callback) {
+    var Manager = cb.Bucket.manager();
+    Manager.getDesignDocuments(function(Error,Design_Docs){
+      Callback(Error,Design_Docs);
+    });
+  }                               
+  
+  /**
+   * Upsert design document
+   */                      
+  static upsert_design_doc(Design_Name,Design_Doc,Callback) {
+    var Manager = cb.Bucket.manager();
+    Manager.upsertDesignDocument(Design_Name,Design_Doc,function(Error,Result){
+      Callback(Error,Result);
+    });
+  }                          
+  
+  /**
+   * Remove design document
+   */                      
+  static remove_design_doc(Design_Name,Callback) {
+    var Manager = cb.Bucket.manager();
+    Manager.removeDesignDocument(Design_Name,function(Error,Result){
+      Callback(Error,Result);
+    });
+  }   
+}//cb class
 
 //nested classes
 cb.view = couchbase.ViewQuery;
