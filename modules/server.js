@@ -43,7 +43,7 @@ class server {
     server.Locales          = {}; //language locales       
     server.Handlers         = {}; //data request handlers    
     server.Htmls            = {}; //prepared htmls  
-    server.Cbdds            = {}; //couchbase design documents
+    server.Cbdds            = {}; //couchbase design documents     
     
     //singleton
     server.Self = this;
@@ -370,9 +370,78 @@ class server {
   /**
    * Upsert Couchbase design documents from 'cbdds' directory
    */
-  upsert_design_docs() {
-    //
-  }   
+  upsert_design_docs(Callback) {       
+    var Cwd   = process.cwd(); 
+    var Chest = server.Default_Chest;
+    var Path  = `${Cwd}/chests/${Chest}/cbdds`; 
+    var Files = fs.readdirSync(Path);
+    
+    //loop thru' files
+    for (var Index=0; Index<Files.length; Index++) {
+      var File_Name = Files[Index];
+    
+      //skip non-js files
+      if (File_Name.match(/.+\.js/)==null)
+        continue;
+                                  
+      //design document name
+      var Design_Name = File_Name.replace(".js","");
+      var Design_Doc  = {views:{}};    
+        
+      //split using /**/ as separator
+      var Content = fs.readFileSync(Path+"/"+File_Name,"utf8");
+      var Tokens  = Content.split(/\/\*\*\//);      
+      
+      //loop thru' tokens
+      //each token is supposed to be a map or reduce function
+      for (var Jndex=0; Jndex<Tokens.length; Jndex++) {
+        var Token = Tokens[Jndex];
+        
+        //not a map or reduce function      
+        var Map_Regex    = /.*function\s+[\w]+_map\s*\(/;
+        var Reduce_Regex = /.*function\s+[\w]+_reduce\s*\(/; 
+        if (Token.search(Map_Regex)==-1 && Token.search(Reduce_Regex)==-1)
+          continue;                   
+            
+        //map function  
+        if (Token.search(Map_Regex)>=0) {
+          var View_Name = Token.match(Map_Regex)[0].trim();
+          View_Name = View_Name.substr(0,View_Name.length-1).trim();
+          View_Name = View_Name.substr(0,View_Name.length-4);
+          View_Name = View_Name.match(/\s+[\w]+/)[0].trim();
+          
+          //put map function into design doc     
+          if (Design_Doc.views[View_Name]==null)
+            Design_Doc.views[View_Name] = {};
+          Design_Doc.views[View_Name].map = Token.trim();
+        }
+        else          
+        
+        //reduce function
+        if (Token.match(Reduce_Regex)>=0) {
+          var View_Name = Token.match(Map_Regex)[0].trim();
+          View_Name = View_Name.substr(0,View_Name.length-1).trim();
+          View_Name = View_Name.substr(0,View_Name.length-7);
+          View_Name = View_Name.match(/\s+[\w]+/)[0].trim();
+          
+          //put reduce function into design doc
+          if (Design_Doc.views[View_Name]==null)
+            Design_Doc.views[View_Name] = {};
+          Design_Doc.views[View_Name].reduce = Token.trim();
+        }
+      }//for jndex
+      
+      //upsert into couchbase
+      cb.upsert_design_doc(Design_Name,Design_Doc,function(Error,Result){
+        if (Error) {
+          console.log(`Failed to upsert '${Design_Name}'!`);      
+          console.log(Error);
+          return;
+        }                            
+        console.log(`Upserted design document '${Design_Name}'\n`);
+      });//upsert
+    }//for index
+  }//upsert design docs   
   
   /**
    * Start server
@@ -435,12 +504,10 @@ class server {
         console.log("No DB connection, server halted!");
         process.exit();
       }    
-      console.log("Upserting Couchbase design documents...");     
+      console.log("Upserting Couchbase design documents...\n");     
       var Server = server.Self;
-      Server.upsert_design_docs();
-      console.log("\nUpserted "+Server.count(server.Cbdds)+" design docs\n");
+      Server.upsert_design_docs();      
       
-      //start server
       //start server
       Express.listen(Server_Port,function(){
         console.log(Server_Name+" "+Server_Version+" started at port "+

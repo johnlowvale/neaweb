@@ -1,9 +1,11 @@
 
-//all_documents/map
-function all_documents(Doc,Meta) {
+/**
+ * Get all documents
+ */
+function all_documents_map(Doc,Meta) {
   Doc.Id = Meta.id;
   emit(Doc.Id,Doc);
 }
-//function/end
+/**/
 
 //end of file
