@@ -41,12 +41,24 @@ class cb {
     cb.Bucket      = Bucket;
     return Bucket;  
   }    
-   
+                            
+  /**
+   * Get openned bucket
+   */                  
+  static bucket() {
+    return cb.Bucket;
+  }   
+  
   /**
    * Couchbase ViewQuery
    */
-  static view_query(Design_Name,View_Name,Callback) {
-    var Query = cb.view.from(Design_Name,View_Name);
+  static view_query(Design_Name,View_Name,Options,Callback) {
+    Options.connection_timeout = 60000;
+    Options.inclusive_end      = true;                              
+    Options.stale              = false;
+  
+    //build query and query
+    var Query = cb.view.from(Design_Name,View_Name).custom(Options);
     cb.Bucket.query(Query,Callback);
   }
   
@@ -56,8 +68,15 @@ class cb {
   static sql_query(Sql_String,Params,Callback) {
     var Query = cb.n1ql.fromString(Sql_String);
     cb.Bucket.query(Query,Params,Callback);
-  }
-      
+  }          
+  
+  /**
+   * Short alias for view_query method
+   */                                 
+  static list(Design_Name,View_Name,Options,Callback) {
+    cb.view_query(Design_Name,View_Name,Options,Callback);
+  }    
+  
   /**
    * Couchbase bucket counter
    */                        
@@ -134,6 +153,14 @@ class cb {
   }
        
   /**
+   * Couchbase N1QL 'limit...'
+   */
+  static limit(Value) {
+    cb.Sql += "limit "+Value+" ";
+    return cb;
+  }
+  
+  /**
    * Couchbase N1QL 'update...'
    */                          
   static update() {         
@@ -188,7 +215,35 @@ class cb {
     cb.sql_query(cb.Sql,Params,Callback);
     return cb;
   }        
-                   
+                 
+  /**
+   * Find documents
+   */ 
+  static find(Type,Doc,Callback) {
+    cb.select("*").where_type(Type);
+    
+    //add parameters
+    for (var Key in Doc)
+      cb.and(Key+"=$"+Key);
+      
+    //query  
+    cb.query(Doc,Callback);  
+  }
+   
+  /**
+   * Find one document
+   */ 
+  static find_one(Type,Doc,Callback) {
+    cb.select("*").where_type(Type);
+    
+    //add parameters
+    for (var Key in Doc)
+      cb.and(Key+"=$"+Key);
+      
+    //query  
+    cb.limit(1).query(Doc,Callback);  
+  }
+   
   /**
    * Insert design documents
    */                       

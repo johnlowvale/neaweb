@@ -12,4 +12,17 @@ function all_users_map(Doc,Meta) {
 }
 /**/
 
+/**
+ * Get all users with username as key
+ */
+function all_users_by_username_map(Doc,Meta) {
+  if (Doc.Type!="USER")
+    return;
+
+  //emit
+  Doc.Id = Meta.id;
+  emit(Doc.Username,Doc);
+}
+/**/
+
 //end of file
