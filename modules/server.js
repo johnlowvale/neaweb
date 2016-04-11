@@ -44,7 +44,8 @@ class server {
     server.Locales          = {}; //language locales       
     server.Handlers         = {}; //data request handlers    
     server.Htmls            = {}; //prepared htmls  
-    server.Cbdds            = {}; //couchbase design documents     
+    server.Cbdds            = {}; //couchbase design documents    
+    server.Sessions         = {}; //session variables 
         
     //less important variables
     server.Upsert_Count = 0;
