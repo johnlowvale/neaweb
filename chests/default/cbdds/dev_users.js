@@ -1,8 +1,8 @@
 
 /**
- * Get all users
+ * Get all users with Id as key
  */
-function all_users_map(Doc,Meta) {
+function all_users_by_id_map(Doc,Meta) {
   if (Doc.Type!="USER")
     return;
 
@@ -13,7 +13,7 @@ function all_users_map(Doc,Meta) {
 /**/
 
 /**
- * Get all users with username as key
+ * Get all users with Username as key
  */
 function all_users_by_username_map(Doc,Meta) {
   if (Doc.Type!="USER")
