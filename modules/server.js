@@ -2,8 +2,22 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stinte Ltd
  * @file    Server module
- * @version 1.6 (see root index.js for info)
+ * @version 1.7
  * @author  John Lowvale
+ *
+ * Version info:
+ * 0.1 Initial version
+ * 0.2 Fixed bug calling handle_post on undefined
+ * 0.3 server.handle_get only handles routes, not files. 
+ * 0.4 Added locale files and locale option when creating server
+ * 0.5 Added logs for loading handlers      
+ * 1.0 All js/css/html files are packed into one for each URL and locale
+ * 1.1 HTML format packed files using js-beautify module
+ * 1.3 Import Couchbase design documents when server starts
+ * 1.4 Restructured project, put public files in 'public' directory
+ * 1.5 Perform security check for HTTP GET & POST
+ * 1.6 Added 'Options' to view_query, added method 'list' to cb.js      
+ * 1.7 Added session auto start/resume.
  */         
 "use strict"; 
  
@@ -88,6 +102,13 @@ class server {
     server.JSDOM_ELEMENT_NODE = Window.Node.ELEMENT_NODE;
     server.JSDOM_TEXT_NODE    = Window.Node.TEXT_NODE;    
   }
+        
+  /**
+   * Check session to start or resume
+   */
+  check_session(Request,Response) {
+    //
+  }
   
   /**
    * Redirect to /no-handler or send "/no-handler"
@@ -139,7 +160,10 @@ class server {
    */                       
   handle_get(Request,Response) {
     console.log(`${Request.ip} ${Request.method} ${Request.path}`);    
-         
+                 
+    //start or resume session
+    server.Self.check_session(Request,Response);
+    
     //default scroll for root url       
     var Path = Request.path;           
     if (Path=="/")
@@ -186,6 +210,9 @@ class server {
    */                       
   handle_post(Request,Response) {      
     console.log(`${Request.ip} ${Request.method} ${Request.path}`);    
+           
+    //start or resume session
+    server.Self.check_session(Request,Response);
     
     //default scroll for root url       
     var Path = Request.path;           
