@@ -34,6 +34,7 @@ var jsdom         = require("jsdom");
 //project modules
 var cb       = require("./cb");
 var security = require("./security");
+var utils    = require("./utils");
 
 /**
  * Main server class
@@ -107,7 +108,23 @@ class server {
    * Check session to start or resume
    */
   check_session(Request,Response) {
-    //
+    var Session_Id = Request.cookies.session;
+    
+    //session id not present in cookies, create new session.
+    if (Session_Id==null) {                  
+    
+      //create a hash not yet in sessions array
+      var Sha256 = utils.sha256(Math.random());
+      while (server.Sessions[Sha256]!=null)
+        Sha256 = utils.sha256(Math.random());  
+        
+      //???
+    }
+    
+    //session id present in cookies
+    else {                 
+      //???
+    }
   }
   
   /**
