@@ -1,6 +1,6 @@
 /**
  * Neaweb - Neat Web Framework with Full Stack JavaScript
- * Freeware by Stinte Ltd
+ * Freeware by Stitec Ltd
  * @file    Security class file
  * @version 0.1
  * @author  John Lowvale 

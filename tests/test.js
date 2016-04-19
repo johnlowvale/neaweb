@@ -1,6 +1,6 @@
 /**
  * Neaweb - Neat Web Framework
- * Freeware by Stinte Ltd
+ * Freeware by Stitec Ltd
  * @file    Framework test file
  * @version 0.1
  * @author  John Lowvale

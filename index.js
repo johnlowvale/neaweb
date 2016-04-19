@@ -1,6 +1,6 @@
 /**
  * Neaweb - Neat Web Framework
- * Freeware by Stinte Ltd
+ * Freeware by Stitec Ltd
  * @file    Server booting file
  * @version 1.7 (following server.js version)
  * @author  John Lowvale 

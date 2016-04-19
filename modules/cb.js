@@ -1,6 +1,6 @@
 /**
  * Neaweb - Neat Web Framework
- * Freeware by Stinte Ltd
+ * Freeware by Stitec Ltd
  * @file    Couchbase Interface Class File
  * @author  John Lowvale
  * @version 0.3    
