@@ -34,6 +34,7 @@ var jsdom         = require("jsdom");
 //project modules
 var cb       = require("./cb");
 var security = require("./security");
+var session  = require("./session");
 var utils    = require("./utils");
 
 /**
@@ -46,7 +47,12 @@ class server {
    */           
   constructor(Server_Name,Server_Version,Server_Port,Database_Host,
   Database_Name,Default_Chest,Default_Scroll,Default_Template,
-  Default_Locale) {
+  Default_Locale) {    
+                               
+    //constants
+    server.SESSION_LIFETIME = 365; //days
+  
+    //static properties
     server.Server_Name      = Server_Name;
     server.Server_Version   = Server_Version;
     server.Server_Port      = Server_Port;
@@ -60,9 +66,8 @@ class server {
     server.Handlers         = {}; //data request handlers    
     server.Htmls            = {}; //prepared htmls  
     server.Cbdds            = {}; //couchbase design documents    
-    server.Sessions         = {}; //session variables 
         
-    //less important variables
+    //less important properties
     server.Upsert_Count = 0;
     server.Upsert_Done  = false;
     
@@ -103,28 +108,12 @@ class server {
     server.JSDOM_ELEMENT_NODE = Window.Node.ELEMENT_NODE;
     server.JSDOM_TEXT_NODE    = Window.Node.TEXT_NODE;    
   }
-        
+  
   /**
    * Check session to start or resume
    */
   check_session(Request,Response) {
-    var Session_Id = Request.cookies.session;
-    
-    //session id not present in cookies, create new session.
-    if (Session_Id==null) {                  
-    
-      //create a hash not yet in sessions array
-      var Sha256 = utils.sha256(Math.random());
-      while (server.Sessions[Sha256]!=null)
-        Sha256 = utils.sha256(Math.random());  
-        
-      //???
-    }
-    
-    //session id present in cookies
-    else {                 
-      //???
-    }
+    session.check_session(Request,Response);
   }
   
   /**

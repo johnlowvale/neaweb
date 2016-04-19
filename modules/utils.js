@@ -37,6 +37,15 @@ class utils {
     var Sha256 = crypto.createHash("sha256");
     Sha256.update(Text);
     return Sha256.digest("hex");    
+  }   
+  
+  /**
+   * Get a date from today
+   */                     
+  static date_from_today(Day_Delta) {
+    var Result = new Date();
+    Result.setDate(Result.getDate()+Day_Delta);
+    return Result;
   }
 }
 
