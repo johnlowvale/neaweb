@@ -357,8 +357,13 @@ class server {
       var Text = Node.nodeValue; 
       while (Text.search(/%\{.+\}/)>=0) {
         var Var = Text.match(/%\{.+\}/).toString();
-        var Key = Var.substr(2,Var.length-3).trim();
-        Text = Text.replace(Var,server.Locales[Locale_Name][Key]);
+        var Key = Var.substr(2,Var.length-3).trim();            
+          
+        //replace by text in certain locale
+        if (server.Locales[Locale_Name][Key]!=null)
+          Text = Text.replace(Var,server.Locales[Locale_Name][Key]);
+        else
+          Text = Text.replace(Var,Key);   
       }
       Node.nodeValue = Text;
     }
