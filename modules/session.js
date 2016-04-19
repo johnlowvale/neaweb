@@ -93,7 +93,7 @@ class session {
     if (Content_Name==null)
       session.set(Request,"Authorised",Value);
     else
-      session.set(Request,"Authorised-For-"+Content_Name,Value);
+      session.set(Request,"Authorised-To-"+Content_Name,Value);
   }     
   
   /**
@@ -103,7 +103,7 @@ class session {
     if (Content_Name==null)
       session.get(Request,"Authorised");
     else
-      session.get(Request,"Authorised-For-"+Content_Name);
+      session.get(Request,"Authorised-To-"+Content_Name);
   }
    
   /**
