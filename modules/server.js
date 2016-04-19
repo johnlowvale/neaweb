@@ -122,7 +122,7 @@ class server {
   no_handler(Request,Response) {       
   
     //check locale in cookies
-    var Locale_Name = Request.cookies.locale;
+    var Locale_Name = Request.cookies.Locale;
     if (Locale_Name==null)
       Locale_Name = server.Default_Locale;
                                           
@@ -143,7 +143,7 @@ class server {
   not_found(Request,Response) {   
     
     //check locale in cookies
-    var Locale_Name = Request.cookies.locale;
+    var Locale_Name = Request.cookies.Locale;
     if (Locale_Name==null)
       Locale_Name = server.Default_Locale;
                                           
@@ -178,7 +178,7 @@ class server {
       Path = Path.substr(0,Path.length-1);
                                        
     //check locale in cookies
-    var Locale_Name = Request.cookies.locale;
+    var Locale_Name = Request.cookies.Locale;
     if (Locale_Name==null)
       Locale_Name = server.Default_Locale;      
       

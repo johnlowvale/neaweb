@@ -26,7 +26,7 @@ class session {
    * Check session to start or resume
    */
   static check_session(Request,Response) {
-    var Session_Id = Request.cookies.session;
+    var Session_Id = Request.cookies.Session;
     
     //session id not present in cookies, create new session.
     if (Session_Id==null) {                  
@@ -38,7 +38,7 @@ class session {
         
       //create session
       session.Entries[Sha256] = {};  
-      Response.cookie("session",Sha256,{
+      Response.cookie("Session",Sha256,{
         expires:utils.date_from_today(session.SESSION_COOKIE_LIFETIME)
       });
     }
@@ -64,7 +64,7 @@ class session {
    * Requires existing session created by 'check_session'
    */                      
   static set(Request,Name,Value) {
-    var Session_Id = Request.cookies.session;
+    var Session_Id = Request.cookies.Session;
     if (Session_Id==null)
       return;
                                               
@@ -77,12 +77,44 @@ class session {
    * Requires existing session created by 'check_session'
    */                      
   static get(Request,Name) {
-    var Session_Id = Request.cookies.session;
+    var Session_Id = Request.cookies.Session;
     if (Session_Id==null)
       return null;
     
     //get value
     return session.Entries[Session_Id][Name];
+  }      
+  
+  /**
+   * Set authorised                         
+   * Value is boolean value or null
+   */              
+  static set_authorised(Request,Value) {
+    session.set(Request,"authorised",Value);
+  }     
+  
+  /**
+   * Get authorised
+   */              
+  static get_authorised(Request) {
+    session.get(Request,"authorised");
+  }
+  
+  /**
+   * Check if authorised
+   */                   
+  static is_authorised(Request) {
+    if (session.get_authorised(Request)==true)
+      return true;
+    else
+      return false;
+  }          
+  
+  /**
+   * Clear authorised
+   */                
+  static clear_authorised(Request) {
+    session.set_authorised(Request,null);
   }
 }
 
