@@ -89,32 +89,59 @@ class session {
    * Set authorised                         
    * Value is boolean value or null
    */              
-  static set_authorised(Request,Value) {
-    session.set(Request,"authorised",Value);
+  static set_authorised(Request,Value,Content_Name) {
+    if (Content_Name==null)
+      session.set(Request,"Authorised",Value);
+    else
+      session.set(Request,"Authorised-For-"+Content_Name,Value);
   }     
   
   /**
    * Get authorised
    */              
-  static get_authorised(Request) {
-    session.get(Request,"authorised");
+  static get_authorised(Request,Content_Name) {
+    if (Content_Name==null)
+      session.get(Request,"Authorised");
+    else
+      session.get(Request,"Authorised-For-"+Content_Name);
+  }
+   
+  /**
+   * Make authorised
+   */                
+  static make_authorised(Request,Content_Name) {
+    if (Content_Name==null)
+      session.set_authorised(Request,true);
+    else
+      session.set_authorised(Request,true,Content_Name);
   }
   
   /**
    * Check if authorised
    */                   
-  static is_authorised(Request) {
-    if (session.get_authorised(Request)==true)
-      return true;
-    else
-      return false;
+  static is_authorised(Request,Content_Name) {
+    if (Content_Name==null) {
+      if (session.get_authorised(Request)==true)
+        return true;
+      else
+        return false;          
+    }
+    else {           
+      if (session.get_authorised(Request,Content_Name)==true)
+        return true;
+      else
+        return false;
+    }
   }          
   
   /**
    * Clear authorised
    */                
-  static clear_authorised(Request) {
-    session.set_authorised(Request,null);
+  static clear_authorised(Request,Content_Name) {
+    if (Content_Name==null)
+      session.set_authorised(Request,null);
+    else
+      session.set_authorised(Request,null,Content_Name);
   }
 }
 
