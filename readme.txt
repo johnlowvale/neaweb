@@ -7,6 +7,7 @@ This project is dependent on these NodeJS modules:
 5. couchbase (by Couchbase Inc.)
 6. jsdom (by Elijah Insua)
 8. js-beautify (by Einar Lielmanis)
+9. pureimage (by Josh Marinacci)
 
 //end of file
 
