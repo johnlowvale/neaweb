@@ -2,22 +2,8 @@
  * Neaweb - Neat Web Framework
  * Freeware by Stitec Ltd
  * @file    Server module
- * @version 1.7
+ * @version 1.7 (see info in index.js)
  * @author  John Lowvale
- *
- * Version info:
- * 0.1 Initial version
- * 0.2 Fixed bug calling handle_post on undefined
- * 0.3 server.handle_get only handles routes, not files. 
- * 0.4 Added locale files and locale option when creating server
- * 0.5 Added logs for loading handlers      
- * 1.0 All js/css/html files are packed into one for each URL and locale
- * 1.1 HTML format packed files using js-beautify module
- * 1.3 Import Couchbase design documents when server starts
- * 1.4 Restructured project, put public files in 'public' directory
- * 1.5 Perform security check for HTTP GET & POST
- * 1.6 Added 'Options' to view_query, added method 'list' to cb.js      
- * 1.7 Added session auto start/resume.
  */         
 "use strict"; 
  
