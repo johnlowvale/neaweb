@@ -9,5 +9,10 @@ This project is dependent on these NodeJS modules:
 8. js-beautify (by Einar Lielmanis)
 9. pureimage (by Josh Marinacci)
 
+Notes:
+Neaweb should run on latest NodeJS (eg. NodeJS 5.9.1).
+However, newer versions of NodeJS (eg. NodeJS 63.1) may not come with 
+pre-built Couchbase.
+
 //end of file
 
